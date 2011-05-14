@@ -16,9 +16,9 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
      * 
      * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getPropertyName()
      */
-    public function getPropertyName($fieldName, $tableName)
+    public function getPropertyName($fieldName, $tableName, $prefix = '_')
     {
-        return '_' . lcfirst($this->_normalize($fieldName));
+        return $prefix . lcfirst($this->_normalize($fieldName));
     }
 
     /**

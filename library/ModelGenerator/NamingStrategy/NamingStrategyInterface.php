@@ -13,9 +13,10 @@ interface ModelGenerator_NamingStrategy_NamingStrategyInterface
      * 
      * @param string $fieldName
      * @param string $tableName
+     * @param string $prefix
      * @return string
      */
-    public function getPropertyName($fieldName, $tableName);
+    public function getPropertyName($fieldName, $tableName, $prefix = '_');
 
     /**
      * 

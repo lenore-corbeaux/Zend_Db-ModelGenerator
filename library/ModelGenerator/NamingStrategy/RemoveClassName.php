@@ -53,11 +53,12 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
      * 
      * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getPropertyName()
      */
-    public function getPropertyName($fieldName, $tableName)
+    public function getPropertyName($fieldName, $tableName, $prefix = '_')
     {
         $fieldName = $this->_normalize($fieldName, $tableName);
-        return $this->getInnerStrategy()->getPropertyName($fieldName, 
-        $tableName);
+        
+        return $this->getInnerStrategy()
+                    ->getPropertyName($fieldName, $tableName, $prefix);
     }
 
     /**
@@ -67,8 +68,9 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
     public function getPropertyGetterName($fieldName, $tableName)
     {
         $fieldName = $this->_normalize($fieldName, $tableName);
-        return $this->getInnerStrategy()->getPropertyGetterName($fieldName, 
-        $tableName);
+        
+        return $this->getInnerStrategy()
+                    ->getPropertyGetterName($fieldName, $tableName);
     }
 
     /**
@@ -78,8 +80,9 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
     public function getPropertySetterName($fieldName, $tableName)
     {
         $fieldName = $this->_normalize($fieldName, $tableName);
-        return $this->getInnerStrategy()->getPropertySetterName($fieldName, 
-        $tableName);
+        
+        return $this->getInnerStrategy()
+                    ->getPropertySetterName($fieldName, $tableName);
     }
 
     /**

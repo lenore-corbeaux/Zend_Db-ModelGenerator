@@ -145,6 +145,8 @@ class ModelGenerator_DomainModel_Generator extends Zend_CodeGenerator_Php_Class
                 )
             ));
             
+            $fields = array();
+            
             foreach ($tableInfos['metadata'] as $name => $infos) {
                 $this->addProperty(
                     $name,
@@ -152,7 +154,13 @@ class ModelGenerator_DomainModel_Generator extends Zend_CodeGenerator_Php_Class
                     $tableName, 
                     $className
                 );
+                
+                $fields[] = $name;
             }
+            
+            $this->addConstructMethod()
+                 ->addToArrayMethod($fields, $tableName)
+                 ->addFromArrayMethod($className);
         }
         
         return parent::generate();
@@ -232,5 +240,124 @@ class ModelGenerator_DomainModel_Generator extends Zend_CodeGenerator_Php_Class
     		'visibility' => 'public',
     		'name' => $setterName
         ));
+    }
+    
+    /**
+     * 
+     * @return ModelGenerator_DomainModel_Generator
+     */
+    public function addConstructMethod()
+    {
+        $this->setMethod(array(
+            'docBlock' => array(
+                'longDescription' => 'Constructor : populate given data'
+            ),
+            'parameters' => array(array(
+                'name' => 'data',
+                'type' => 'array',
+                'value' => 'array()'
+            
+            )),
+            'body' => '$this->fromArray($data);',
+            'visibility' => 'public',
+            'name' => '__construct'
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param array $fields
+     * @param string $tableName
+     * @return ModelGenerator_DomainModel_Generator
+     */
+    public function addToArrayMethod(array $fields, $tableName)
+    {
+        $body = "return array(\n";
+        $tab = str_pad(' ', 4);
+        
+        $namingStrategy = $this->getNamingStrategy();
+                
+        foreach ($fields as $fieldName) {
+            $getterName = $namingStrategy->getPropertyGetterName(
+                $fieldName, $tableName
+            );
+            
+            $propertyName = $namingStrategy->getPropertyName(
+                $fieldName, $tableName, ''
+            );
+            
+            $body .= "$tab'$propertyName' => \$this->$getterName(),\n";
+        }
+        
+        $body .= ');';
+        
+        $this->setMethod(array(
+            'docBlock' => array(
+                'longDescription' => "Returns an array from model's data",
+                'tags' => array(
+                    array(
+                    	'name' => 'return',
+                    	'description' => 'array'
+                    )
+                )
+            ),
+            'body' => $body,
+            'visibility' => 'public',
+            'name' => 'toArray'
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param string $className
+     * @return ModelGenerator_DomainModel_Generator
+     */
+    public function addFromArrayMethod($className)
+    {
+        $tab = str_pad(' ', 4);
+        
+        $body = <<< EOF
+foreach (\$data as \$key => \$value) {
+${tab}\$setterName = 'set' . ucfirst(\$key);
+
+${tab}if (!method_exists(\$this, \$setterName)) {
+$tab${tab}throw new InvalidArgumentException("Invalid property '\$key'");
+$tab}
+
+${tab}\$this->\$setterName(\$value);
+}
+
+return \$this;
+EOF;
+
+        $this->setMethod(array(
+            'docBlock' => array(
+        		'longDescription' => "Populate model's data with"
+                        		  . ' the content of an array',
+                'tags' => array(
+                    array(
+                    	'name' => 'param',
+                    	'description' => 'array $data'
+                    ), 
+                    array(
+                    	'name' => 'return',
+                    	'description' => $className
+                    )
+                )
+            ),
+            'parameters' => array(array(
+                'name' => 'data',
+                'type' => 'array'
+            )),
+            'body' => $body,
+            'visibility' => 'public',
+            'name' => 'fromArray'
+        ));
+        
+        return $this;
     }
 }
