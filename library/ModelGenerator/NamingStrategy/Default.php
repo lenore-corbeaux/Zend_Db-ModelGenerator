@@ -11,6 +11,18 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
         $className = $appNamespace . '_Model_' . $this->_normalize($tableName);
         return $className;
     }
+    
+    /**
+     * 
+     * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getMapperClassName()
+     */
+    public function getMapperClassName($tableName, $appNamespace)
+    {
+        $className = $appNamespace . '_Model_Mapper_'
+                   . $this->_normalize($tableName);
+                   
+        return $className;
+    }
 
     /**
      * 

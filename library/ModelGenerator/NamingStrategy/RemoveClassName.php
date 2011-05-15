@@ -45,8 +45,18 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
      */
     public function getClassName($tableName, $appNamespace)
     {
-        return $this->getInnerStrategy()->getClassName($tableName, 
-        $appNamespace);
+        return $this->getInnerStrategy()
+                    ->getClassName($tableName, $appNamespace);
+    }
+    
+    /**
+     * 
+     * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getMapperClassName()
+     */
+    public function getMapperClassName($tableName, $appNamespace)
+    {
+        return $this->getInnerStrategy()
+                    ->getMapperClassName($tableName, $appNamespace);
     }
 
     /**

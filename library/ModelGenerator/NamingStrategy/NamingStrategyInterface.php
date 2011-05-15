@@ -8,6 +8,14 @@ interface ModelGenerator_NamingStrategy_NamingStrategyInterface
      * @return string
      */
     public function getClassName($tableName, $appNamespace);
+    
+    /**
+     * 
+     * @param string $tableName
+     * @param string $appNamespace
+     * @return string
+     */
+    public function getMapperClassName($tableName, $appNamespace);
 
     /**
      * 
