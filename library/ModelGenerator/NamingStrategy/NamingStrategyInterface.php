@@ -16,6 +16,21 @@ interface ModelGenerator_NamingStrategy_NamingStrategyInterface
      * @return string
      */
     public function getMapperClassName($tableName, $appNamespace);
+    
+    /**
+     * 
+     * @param string $tableName
+     * @param string $appNamespace
+     * @return string
+     */
+    public function getDbTableClassName($tableName, $appNamespace);
+    
+    /**
+     * 
+     * @param string $tableName
+     * @return string
+     */
+    public function getFileName($tableName);
 
     /**
      * 

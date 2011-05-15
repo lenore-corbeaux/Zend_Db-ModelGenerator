@@ -23,6 +23,27 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
                    
         return $className;
     }
+    
+    /**
+     * 
+     * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getDbTableClassName()
+     */
+    public function getDbTableClassName($tableName, $appNamespace)
+    {
+        $className = $appNamespace . '_Model_DbTable_'
+                   . $this->_normalize($tableName);
+                   
+        return $className;
+    }
+    
+    /**
+     * 
+     * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getFileName()
+     */
+    public function getFileName($tableName)
+    {
+        return $this->_normalize($tableName) . '.php';
+    }
 
     /**
      * 

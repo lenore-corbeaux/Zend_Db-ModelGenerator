@@ -58,6 +58,26 @@ ModelGenerator_NamingStrategy_NamingStrategyInterface
         return $this->getInnerStrategy()
                     ->getMapperClassName($tableName, $appNamespace);
     }
+    
+    /**
+     * 
+     * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getMapperClassName()
+     */
+    public function getDbTableClassName($tableName, $appNamespace)
+    {
+        return $this->getInnerStrategy()
+                    ->getDbTableClassName($tableName, $appNamespace);
+    }
+    
+    /**
+     * 
+     * @see ModelGenerator_NamingStrategy_NamingStrategyInterface::getFileName()
+     */
+    public function getFileName($tableName)
+    {
+        return $this->getInnerStrategy()
+                    ->getFileName($tableName);
+    }
 
     /**
      * 
